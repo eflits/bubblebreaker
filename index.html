@@ -32,7 +32,7 @@
       position: absolute;
       width: 60px;
       height: 60px;
-      padding: 16px;
+      padding: 50px;
       border-radius: 50px;
       font-family: fantasy;
       align-content: center;
@@ -40,9 +40,32 @@
       background-color: white;
       z-index: 1002;
       overflow: auto;
-      align-items: center;
-      background: radial-gradient(circle at 50% 120%, #50686b, #76deef 10%, #34648e 80%, #ffffff 100%);
-}
+      margin: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 120%, #81e8f6, #76deef 10%, #055194 80%, #062745 100%);
+      transform-origin: 25px;
+      text-align: center;
+      color: white;
+      vertical-align: bottom;
+      animation-name: tada;
+      -webkit-animation-duration: 2s;
+      animation-duration: 2s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+    }
+
+    #win2:before {
+      content: "";
+      position: absolute;
+      top: 1%;
+      left: 5%;
+      width: 90%;
+      height: 90%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 0px, #ffffff, rgba(255, 255, 255, 0) 58%);
+      -webkit-filter: blur(5px);
+      z-index: 2;
+    }
 
 figure{
   display: inline-block;
@@ -86,10 +109,25 @@ figure:hover {
     }
 }
 
+@keyframes tada {
+   0% {transform: scale(1);}
+   10%, 20% {transform: scale(0.9) rotate(-3deg);}
+   30%, 50%, 70%, 90% {transform: scale(1.1) rotate(3deg);}
+   40%, 60%, 80% {transform: scale(1.1) rotate(-3deg);}
+   100% {transform: scale(1) rotate(0);}
+}
+
+@-webkit-keyframes tada {
+   0% {-webkit-transform: scale(1);}
+   10%, 20% {-webkit-transform: scale(0.9) rotate(-3deg);}
+   30%, 50%, 70%, 90% {-webkit-transform: scale(1.1) rotate(3deg);}
+   40%, 60%, 80% {-webkit-transform: scale(1.1) rotate(-3deg);}
+   100% {-webkit-transform: scale(1) rotate(0);}
+}
 
 #stage {
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   display: inline-block;
   line-height: 40px;
   margin: 20px;
@@ -98,15 +136,15 @@ figure:hover {
 }
 
 body {
-  width: 500px;
+  width: 600px;
   margin: 20px auto;
   background: linear-gradient(to bottom, rgba(100, 100, 100, 0.2) 0%, rgba(255, 255, 255, 0.5) 40%, #ffffff 100%);
   background-repeat: no-repeat;
 }
 
 #bubble1 {
-  width: 52px;
-  height: 52px;
+  width: 60px;
+  height: 60px;
   font-family: sans-serif;
   font-family: fantasy;
 
@@ -142,6 +180,7 @@ body {
   var score = document.getElementById("bubble1");
   var bubble1 = document.getElementById("bubble1");
   var bubble1Size = bubble1.offsetWidth;
+  var audio = new Audio("http://music.ogg" )
 
   for (var i = 0; i<bubbles.length; i++ )
     bubbles[i].style.background=color[Math.floor(Math.random() * color.length)];
@@ -151,28 +190,28 @@ body {
       var bubbleColor = bubble.style.background;
       var winWindow1 = document.getElementById("win1");
       var winWindow2 = document.getElementById("win2");
-      var audio = new Audio('dustyroom_cartoon_bubble_pop.mp3');
+      var audio = new Audio('mp3/dustyroom_cartoon_bubble_pop.mp3');
       audio.play();
       //console.log(winWindow1, winWindow2);
       if (nextbubble.style.background === bubbleColor){
         bubblesSameColor++;
         bubble1Size++;
-        bubble1.style.width = (bubble1Size + 2) + "px";
-        bubble1.style.height = (bubble1Size + 2) + "px";
+        bubble1.style.width = (bubble1Size + 1) + "px";
+        bubble1.style.height = (bubble1Size + 1) + "px";
         score.innerHTML = bubblesSameColor;
         bubble.parentNode.removeChild(bubble);
-        //createNew();
+        createNew();
         checkNextColor(nextbubble);
         nextbubble.parentNode.removeChild(nextbubble)
         bubblesSameColor++;
         if (bubble.id === "bubble1") {
           //alert('You WIN!');
           winWindow1.style.display='block';
-          winWindow2.innerHTML = "YOU WIN " + bubblesSameColor + "$";
+          winWindow2.innerHTML = "УРА! " + "ОЧКОВ:   " + bubblesSameColor;
           winWindow2.style.display='block';
           setTimeout(function() {location.reload(true) }, 3000)
         }
-        //createNew();
+        createNew();
     }
       //console.log(bubblesSameColor);
     }
